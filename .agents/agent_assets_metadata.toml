@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "Tp5w4YqxrltfESpFixOtK"
+uri = "file://DEPLOYMENT.md"
+type = "text"
+title = "Deployment Guide — Dokploy + Nixpacks + PostgreSQL"
