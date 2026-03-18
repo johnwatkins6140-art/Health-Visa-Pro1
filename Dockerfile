@@ -10,6 +10,9 @@ COPY artifacts/ ./artifacts/
 
 RUN pnpm install --frozen-lockfile
 
+ARG VITE_PAYSTACK_PUBLIC_KEY
+ENV VITE_PAYSTACK_PUBLIC_KEY=$VITE_PAYSTACK_PUBLIC_KEY
+
 RUN pnpm --filter @workspace/uk-health-visa run build
 
 RUN pnpm --filter @workspace/api-server run build
