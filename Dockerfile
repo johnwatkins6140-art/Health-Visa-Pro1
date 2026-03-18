@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN npm install -g pnpm@10.26.1
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json tsconfig.json ./
 COPY lib/ ./lib/
 COPY artifacts/ ./artifacts/
 
