@@ -1,6 +1,9 @@
+[variables]
+COREPACK_INTEGRITY_KEYS = "0"
+
 [phases.setup]
 nixPkgs = ["nodejs_22"]
-cmds = ["corepack enable && corepack prepare pnpm@10.26.1 --activate"]
+cmds = ["COREPACK_INTEGRITY_KEYS=0 corepack enable && COREPACK_INTEGRITY_KEYS=0 corepack prepare pnpm@10.26.1 --activate"]
 
 [phases.install]
 cmds = ["pnpm install --frozen-lockfile"]

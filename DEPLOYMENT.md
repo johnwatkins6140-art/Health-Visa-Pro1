@@ -1,5 +1,25 @@
-# Deployment Guide — UK Work Visa (Sponsorship) App
-## Dokploy + Nixpacks + PostgreSQL
+# Deployment Guide — UK Health Visa Application
+## Dokploy + PostgreSQL
+
+---
+
+## Build Method — Choose One
+
+Two build methods are included. **Dockerfile is recommended** — it uses the standard Node.js Docker image and has no environment quirks.
+
+### Option A — Dockerfile (Recommended ✅)
+
+1. In Dokploy → Application settings → **Build type**: select `Dockerfile`
+2. Nixpacks.toml is ignored; the `Dockerfile` in the root is used
+3. Deploy — no extra steps needed
+
+The Dockerfile uses `node:22-slim`, installs pnpm 10.26.1 via npm (which works reliably in standard Docker), builds the frontend and API, then runs the compiled server.
+
+### Option B — Nixpacks (Alternative)
+
+1. In Dokploy → Application settings → **Build type**: select `Nixpacks`
+2. `nixpacks.toml` is used; `COREPACK_INTEGRITY_KEYS=0` is pre-configured to bypass the corepack signature check that affects older bundled corepack versions
+3. Deploy
 
 ---
 
@@ -8,9 +28,7 @@
 This app consists of:
 - **Frontend** — React + Vite (built to static files)
 - **Backend** — Node.js + Express API (serves both the API and the static frontend)
-- **Database** — PostgreSQL (stores all visa applications)
-
-The Nixpacks build system handles everything automatically using the `nixpacks.toml` in the root of this repo.
+- **Database** — PostgreSQL (stores all visa applications, auto-created on first startup)
 
 ---
 

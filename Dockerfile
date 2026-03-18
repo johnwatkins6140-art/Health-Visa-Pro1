@@ -1,0 +1,21 @@
+FROM node:22-slim
+
+WORKDIR /app
+
+RUN npm install -g pnpm@10.26.1
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY lib/ ./lib/
+COPY artifacts/ ./artifacts/
+
+RUN pnpm install --frozen-lockfile
+
+RUN pnpm --filter @workspace/uk-health-visa run build
+
+RUN pnpm --filter @workspace/api-server run build
+
+ENV NODE_ENV=production
+
+EXPOSE 3000
+
+CMD ["node", "artifacts/api-server/dist/index.cjs"]
