@@ -5,19 +5,13 @@ WORKDIR /app
 # Install pnpm
 RUN npm install -g pnpm@10.26.1
 
-# Copy workspace files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json tsconfig.json ./
-COPY lib/ ./lib/
-COPY artifacts/ ./artifacts/
+# Copy EVERYTHING (not just artifacts)
+COPY . .
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
-# Build args
-ARG VITE_PAYSTACK_PUBLIC_KEY
-ENV VITE_PAYSTACK_PUBLIC_KEY=$VITE_PAYSTACK_PUBLIC_KEY
-
-# Build apps
+# Build projects
 RUN pnpm --filter @workspace/uk-health-visa run build
 RUN pnpm --filter @workspace/api-server run build
 
@@ -27,5 +21,5 @@ ENV PORT=3000
 
 EXPOSE 3000
 
-# 🔥 CRITICAL DEBUG CMD (prevents container from dying instantly)
-CMD ["sh", "-c", "echo 'Starting app...' && node artifacts/api-server/dist/index.cjs || (echo 'App crashed, keeping container alive...' && sleep 3600)"]
+# Run correct built file (adjust if needed)
+CMD ["sh", "-c", "ls -R && node packages/api-server/dist/index.js"]
