@@ -328,6 +328,7 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
   const [error, setError] = useState<string | null>(null);
 
   const publicKey = (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string) || '';
+  const paystackCurrency = (import.meta.env.VITE_PAYSTACK_CURRENCY as string) || '';
 
   const openPaystack = () => {
     if (!publicKey) {
@@ -341,11 +342,10 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
     }
     setLoading(true);
     setError(null);
-    const handler = PaystackPop.setup({
+    const paystackConfig: Record<string, unknown> = {
       key: publicKey,
       email: form.email,
       amount: totalFee * 100,
-      currency: 'GBP',
       ref: refNumber,
       firstname: form.firstName,
       lastname: form.lastName,
@@ -378,7 +378,11 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
       onClose: () => {
         setLoading(false);
       },
-    });
+    };
+    if (paystackCurrency) {
+      paystackConfig.currency = paystackCurrency;
+    }
+    const handler = PaystackPop.setup(paystackConfig);
     handler.openIframe();
   };
 
@@ -974,7 +978,7 @@ function StepEnglish({ form, update, errors }: any) {
 
 function StepFees({ isHealthCare, duration, setDuration, visaFee, ihsYears, setIhsYears, ihsFee, wantsPriority, setWantsPriority, priorityFee, totalFee }: any) {
   const rows = [
-    { item: isHealthCare ? "Health and Care Worker Visa fee" : "Skilled Worker Visa fee", detail: duration === "short" ? "Up to 3 years" : "More than 3 years", amount: visaFee, badge: "Mandatory", badgeColor: "#d4351c", note: "Non-refundable. Paid online via Worldpay at submission." },
+    { item: isHealthCare ? "Health and Care Worker Visa fee" : "Skilled Worker Visa fee", detail: duration === "short" ? "Up to 3 years" : "More than 3 years", amount: visaFee, badge: "Mandatory", badgeColor: "#d4351c", note: "Non-refundable. Paid online via Paystack at submission." },
     { item: "Biometric enrolment", detail: "Fingerprints and photo at Visa Application Centre", amount: 0, display: "Included", badge: "Mandatory", badgeColor: "#d4351c", note: "Included in visa fee." },
     { item: "Immigration Health Surcharge (IHS)", detail: isHealthCare ? "Exempt — H&C Worker visa holders do not pay IHS" : `£1,035/yr × ${ihsYears} yr`, amount: isHealthCare ? null : ihsFee, display: isHealthCare ? "EXEMPT" : undefined, badge: isHealthCare ? "Exempt" : "Mandatory", badgeColor: isHealthCare ? "#00703c" : "#d4351c", note: isHealthCare ? "H&C Worker visa holders and dependants are fully exempt." : "Gives access to the NHS. Paid upfront for the visa duration." },
     { item: "Priority service", detail: "Decision within 5 working days", amount: 500, display: wantsPriority === "priority" ? "£500" : "Not selected", badge: "Optional", badgeColor: "#6b7280", note: "Add below." },
@@ -1058,7 +1062,7 @@ function StepFees({ isHealthCare, duration, setDuration, visaFee, ihsYears, setI
       </div>
       <div className="mt-4 bg-blue-50 border-l-4 border-blue-700 p-4 rounded-sm text-xs text-blue-900">
         <p className="font-semibold mb-1">How payment works</p>
-        <p className="leading-relaxed">After you submit your declaration on the next step, you will be taken to a <strong>secure payment page</strong> where you enter your card details. Payment is processed by <strong>Worldpay</strong> on behalf of the Home Office. Accepted cards: Visa, Mastercard, American Express. All fees are <strong>non-refundable</strong>.</p>
+        <p className="leading-relaxed">After you submit your declaration on the next step, you will be taken to a <strong>secure payment page</strong> where you enter your card details. Payment is processed securely by <strong>Paystack</strong>. Accepted cards: Visa, Mastercard, American Express. All fees are <strong>non-refundable</strong>.</p>
       </div>
     </div>
   );
@@ -1099,7 +1103,7 @@ function StepDeclaration({ form, update, errors, isHealthCare }: any) {
       </div>
       <div className="bg-green-50 border border-green-200 rounded-sm p-4 text-xs text-green-900 flex items-start gap-2">
         <svg className="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-        <span>After agreeing to the declaration, you will be taken to the <strong>secure payment page</strong> to pay your visa fee. Payment is processed by Worldpay on behalf of the Home Office.</span>
+        <span>After agreeing to the declaration, you will be taken to the <strong>secure payment page</strong> to pay your visa fee. Payment is processed securely by Paystack.</span>
       </div>
     </div>
   );
