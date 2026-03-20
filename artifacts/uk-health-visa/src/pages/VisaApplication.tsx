@@ -357,24 +357,26 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
             { display_name: 'Processing', variable_name: 'processing', value: wantsPriority === 'none' ? 'Standard' : wantsPriority === 'priority' ? 'Priority' : 'Super Priority' },
           ],
         },
-        callback: async (response: { reference: string }) => {
-          try {
-            const res = await fetch('/api/paystack/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ reference: response.reference }),
-            });
-            const data = await res.json();
-            if (data.verified) {
-              onPaid(response.reference);
-            } else {
-              setError('Payment could not be verified. Please contact support if your card was charged.');
+        callback: (response: { reference: string }) => {
+          void (async () => {
+            try {
+              const res = await fetch('/api/paystack/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reference: response.reference }),
+              });
+              const data = await res.json();
+              if (data.verified) {
+                onPaid(response.reference);
+              } else {
+                setError('Payment could not be verified. Please contact support if your card was charged.');
+                setLoading(false);
+              }
+            } catch {
+              setError('Network error during payment verification. Please contact support.');
               setLoading(false);
             }
-          } catch {
-            setError('Network error during payment verification. Please contact support.');
-            setLoading(false);
-          }
+          })();
         },
         onClose: () => {
           setLoading(false);
