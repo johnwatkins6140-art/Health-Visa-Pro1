@@ -1,0 +1,33 @@
+root@Felix:/home# systemctl restart docker
+systemctl restart dokploy
+Failed to restart dokploy.service: Unit dokploy.service not found.
+root@Felix:/home# df -h
+Filesystem                         Size  Used Avail Use% Mounted on
+tmpfs                              392M  3.0M  389M   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv   63G   54G  6.3G  90% /
+tmpfs                              2.0G     0  2.0G   0% /dev/shm
+tmpfs                              5.0M     0  5.0M   0% /run/lock
+/dev/vda2                          1.7G  257M  1.4G  16% /boot
+tmpfs                              392M  4.0K  392M   1% /run/user/1000
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/fd23fb39c0e679fe9237d912986997162558a6575794bd7295f866d20237d392
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/ab2ecb391ef5d4999f80aed5d3f5c4f0ddfe4e5b9c7e31db009a2dd3cf06254c
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/20564b653a596ef3971a69b56021427c38713a2eb949ce9ff9e3a4bbc100c06d
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/d250da8006b3bb56e10078a17eb21451a151fe2ee311746f3452bc738981896d
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/9521255406e17766aef7ff7ca330253422691831d8a56bfda32591398e3ff81a
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/5752f156557ca0b5446d497bf69a6e536efe628d9962f423148a0c151e888a8c
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/b856aa93a553a5a35cb9b51a811498ac79d2b57f37c14bf55baf6a8de3ee4bd2
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/d41c31c8818d41b3e7babb35b1ba5d0ab3c7a341b8a9f40e326d26db0ce347dc
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/3ab32305d34d424c5cf695379e2bf4654067c9f315a0c8daef2b9ab6df2f2cf0
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/4619e0c7edfdd4a228f7c5821f57e3c479be27ca766617e9887102c6695b3156
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/1c5f787af343568ff057500c9cdca741cb6d900062c3dc0778d5b6e61f5cff3e
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/6564f01f7e1bba3fbb1c36940b6c06bee88e81d1b4895c60009ed29e92530db9
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/66f6b7f5110e87599d4af327d5ea96f1d5380a92f733d43d38c4c55d87cd219f
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/c62964df899f5d66dd67cf31ddabe8f6f02117bdc7c691d560e6d1ffc5a371ff
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/3bc82629af6880dfc3f8661ce4c354428e0d9d14b0efbe5256fbd55ea390c679
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/5b4599da2befd262e80c77ac8727943b32ab68b3b2e5ade2b7ede41c8178be9c
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/c231bdd74244dea5838d9c516393001459f4172884d28b7fbe05f6ece705400c
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/6e5dbf8e78b4031fdb2a251fea16c51f9e9f63ab494507e3a5a64cbc0bf4b240
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/ac41d1b6fc179dbe76ec42f06b16ccba624b2756bd459c06f8cdebc42a714c95
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/6c0c537d14d9107faf19734edd4bb8ff4517124ef2aed43595da5b61fce02217
+overlay                             63G   54G  6.3G  90% /var/lib/docker/rootfs/overlayfs/c526ec695f3556f2f56a76b3389efd385674567a6648d505ab49cd2e3976160b
+root@Felix:/home#
