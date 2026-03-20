@@ -342,48 +342,54 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
     }
     setLoading(true);
     setError(null);
-    const paystackConfig: Record<string, unknown> = {
-      key: publicKey,
-      email: form.email,
-      amount: totalFee * 100,
-      ref: refNumber,
-      firstname: form.firstName,
-      lastname: form.lastName,
-      metadata: {
-        custom_fields: [
-          { display_name: 'Visa Type', variable_name: 'visa_type', value: isHealthCare ? 'Health & Care Worker' : 'Skilled Worker' },
-          { display_name: 'Duration', variable_name: 'duration', value: duration === 'short' ? 'Up to 3 years' : 'Over 3 years' },
-          { display_name: 'Processing', variable_name: 'processing', value: wantsPriority === 'none' ? 'Standard' : wantsPriority === 'priority' ? 'Priority' : 'Super Priority' },
-        ],
-      },
-      callback: async (response: { reference: string }) => {
-        try {
-          const res = await fetch('/api/paystack/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ reference: response.reference }),
-          });
-          const data = await res.json();
-          if (data.verified) {
-            onPaid(response.reference);
-          } else {
-            setError('Payment could not be verified. Please contact support if your card was charged.');
+    try {
+      const paystackConfig: Record<string, unknown> = {
+        key: publicKey,
+        email: form.email,
+        amount: totalFee * 100,
+        ref: refNumber,
+        firstname: form.firstName,
+        lastname: form.lastName,
+        metadata: {
+          custom_fields: [
+            { display_name: 'Visa Type', variable_name: 'visa_type', value: isHealthCare ? 'Health & Care Worker' : 'Skilled Worker' },
+            { display_name: 'Duration', variable_name: 'duration', value: duration === 'short' ? 'Up to 3 years' : 'Over 3 years' },
+            { display_name: 'Processing', variable_name: 'processing', value: wantsPriority === 'none' ? 'Standard' : wantsPriority === 'priority' ? 'Priority' : 'Super Priority' },
+          ],
+        },
+        callback: async (response: { reference: string }) => {
+          try {
+            const res = await fetch('/api/paystack/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ reference: response.reference }),
+            });
+            const data = await res.json();
+            if (data.verified) {
+              onPaid(response.reference);
+            } else {
+              setError('Payment could not be verified. Please contact support if your card was charged.');
+              setLoading(false);
+            }
+          } catch {
+            setError('Network error during payment verification. Please contact support.');
             setLoading(false);
           }
-        } catch {
-          setError('Network error during payment verification. Please contact support.');
+        },
+        onClose: () => {
           setLoading(false);
-        }
-      },
-      onClose: () => {
-        setLoading(false);
-      },
-    };
-    if (paystackCurrency) {
-      paystackConfig.currency = paystackCurrency;
+        },
+      };
+      if (paystackCurrency) {
+        paystackConfig.currency = paystackCurrency;
+      }
+      const handler = PaystackPop.setup(paystackConfig);
+      handler.openIframe();
+    } catch (err: any) {
+      console.error('[paystack] Failed to open payment popup:', err);
+      setError('Could not open payment window: ' + (err?.message || 'Unknown error. Please refresh and try again.'));
+      setLoading(false);
     }
-    const handler = PaystackPop.setup(paystackConfig);
-    handler.openIframe();
   };
 
   const lineItems = [
