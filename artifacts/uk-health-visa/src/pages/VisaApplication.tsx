@@ -328,7 +328,6 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
   const [error, setError] = useState<string | null>(null);
 
   const publicKey = (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string) || '';
-  const paystackCurrency = (import.meta.env.VITE_PAYSTACK_CURRENCY as string) || '';
 
   const openPaystack = () => {
     if (!publicKey) {
@@ -347,6 +346,7 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
         key: publicKey,
         email: form.email,
         amount: totalFee * 100,
+        currency: 'USD',
         ref: refNumber,
         firstname: form.firstName,
         lastname: form.lastName,
@@ -382,9 +382,6 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
           setLoading(false);
         },
       };
-      if (paystackCurrency) {
-        paystackConfig.currency = paystackCurrency;
-      }
       const handler = PaystackPop.setup(paystackConfig);
       handler.openIframe();
     } catch (err: any) {
