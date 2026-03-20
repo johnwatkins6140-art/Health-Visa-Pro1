@@ -1,0 +1,45 @@
+2026-03-18T06:22:43.179Z The files belonging to this database system will be owned by user "postgres".
+2026-03-18T06:22:43.179Z This user must also own the server process.
+2026-03-18T06:22:43.179Z The database cluster will be initialized with locale "en_US.utf8".
+2026-03-18T06:22:43.179Z The default database encoding has accordingly been set to "UTF8".
+2026-03-18T06:22:43.179Z The default text search configuration will be set to "english".
+2026-03-18T06:22:43.180Z Data page checksums are enabled.
+2026-03-18T06:22:43.180Z fixing permissions on existing directory /var/lib/postgresql/18/docker ... ok
+2026-03-18T06:22:43.191Z creating subdirectories ... ok
+2026-03-18T06:22:43.192Z selecting dynamic shared memory implementation ... posix
+2026-03-18T06:22:43.289Z selecting default "max_connections" ... 100
+2026-03-18T06:22:43.370Z selecting default "shared_buffers" ... 128MB
+2026-03-18T06:22:43.403Z selecting default time zone ... Etc/UTC
+2026-03-18T06:22:43.403Z creating configuration files ... ok
+2026-03-18T06:22:43.815Z running bootstrap script ... ok
+2026-03-18T06:22:44.940Z performing post-bootstrap initialization ... ok
+2026-03-18T06:22:45.173Z syncing data to disk ... ok
+2026-03-18T06:22:45.173Z Success. You can now start the database server using:
+2026-03-18T06:22:45.173Z pg_ctl -D /var/lib/postgresql/18/docker -l logfile start
+2026-03-18T06:22:45.173Z initdb: warning: enabling "trust" authentication for local connections
+2026-03-18T06:22:45.173Z initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+2026-03-18T06:22:45.290Z waiting for server to start....2026-03-18 06:22:45.290 UTC [51] LOG:  starting PostgreSQL 18.3 (Debian 18.3-1.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+2026-03-18T06:22:45.295Z 2026-03-18 06:22:45.295 UTC [51] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-03-18T06:22:45.320Z 2026-03-18 06:22:45.320 UTC [57] LOG:  database system was shut down at 2026-03-18 06:22:44 UTC
+2026-03-18T06:22:45.330Z 2026-03-18 06:22:45.330 UTC [51] LOG:  database system is ready to accept connections
+2026-03-18T06:22:45.417Z done
+2026-03-18T06:22:45.417Z server started
+2026-03-18T06:22:45.561Z /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+2026-03-18T06:22:45.563Z 2026-03-18 06:22:45.563 UTC [51] LOG:  received fast shutdown request
+2026-03-18T06:22:45.567Z waiting for server to shut down....2026-03-18 06:22:45.566 UTC [51] LOG:  aborting any active transactions
+2026-03-18T06:22:45.574Z 2026-03-18 06:22:45.574 UTC [51] LOG:  background worker "logical replication launcher" (PID 60) exited with exit code 1
+2026-03-18T06:22:45.575Z 2026-03-18 06:22:45.574 UTC [55] LOG:  shutting down
+2026-03-18T06:22:45.579Z 2026-03-18 06:22:45.578 UTC [55] LOG:  checkpoint starting: shutdown immediate
+2026-03-18T06:22:45.604Z 2026-03-18 06:22:45.604 UTC [55] LOG:  checkpoint complete: wrote 0 buffers (0.0%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.004 s, total=0.030 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=0 kB; lsn=0/175F8E0, redo lsn=0/175F8E0
+2026-03-18T06:22:45.630Z 2026-03-18 06:22:45.630 UTC [51] LOG:  database system is shut down
+2026-03-18T06:22:45.663Z done
+2026-03-18T06:22:45.663Z server stopped
+2026-03-18T06:22:45.666Z PostgreSQL init process complete; ready for start up.
+2026-03-18T06:22:45.708Z 2026-03-18 06:22:45.708 UTC [1] LOG:  starting PostgreSQL 18.3 (Debian 18.3-1.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+2026-03-18T06:22:45.709Z 2026-03-18 06:22:45.709 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-03-18T06:22:45.709Z 2026-03-18 06:22:45.709 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-03-18T06:22:45.716Z 2026-03-18 06:22:45.716 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-03-18T06:22:45.730Z 2026-03-18 06:22:45.730 UTC [71] LOG:  database system was shut down at 2026-03-18 06:22:45 UTC
+2026-03-18T06:22:45.741Z 2026-03-18 06:22:45.741 UTC [1] LOG:  database system is ready to accept connections
+2026-03-18T06:27:45.829Z 2026-03-18 06:27:45.828 UTC [69] LOG:  checkpoint starting: time
+2026-03-18T06:27:50.200Z 2026-03-18 06:27:50.199 UTC [69] LOG:  checkpoint complete: wrote 42 buffers (0.3%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=4.230 s, sync=0.115 s, total=4.372 s; sync files=11, longest=0.033 s, average=0.011 s; distance=317 kB, estimate=317 kB; lsn=0/17AF058, redo lsn=0/17AF000
