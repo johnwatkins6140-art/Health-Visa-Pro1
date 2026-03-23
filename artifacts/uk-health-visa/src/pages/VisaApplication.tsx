@@ -488,14 +488,14 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
           </nav>
 
           <h1 className="text-2xl font-bold mb-1" style={{ color: ukBlue }}>Pay your visa application fee</h1>
-          <p className="text-sm text-gray-600 mb-8">Choose how you would like to pay. All payments are encrypted and processed securely.</p>
+          <p className="text-sm text-gray-600 mb-8">Payment is processed securely via PayPal. You can pay with your PayPal account or any debit/credit card.</p>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             <div className="md:col-span-3">
               <div className="bg-white border border-gray-200 rounded-sm shadow-sm overflow-hidden">
                 <div className="px-5 py-4 border-b border-gray-100" style={{ backgroundColor: ukBlue }}>
                   <p className="text-sm font-bold text-white">Secure payment</p>
-                  <p className="text-xs text-blue-200 mt-0.5">256-bit SSL encrypted · TLS 1.3</p>
+                  <p className="text-xs text-blue-200 mt-0.5">Powered by PayPal · 256-bit SSL encrypted</p>
                 </div>
                 <div className="p-5">
                   <div className="mb-5">
@@ -516,34 +516,7 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
                     </div>
                   )}
 
-                  {/* ── Option 1: Pay by card ── */}
-                  <div className="border border-gray-200 rounded-sm p-4 mb-3">
-                    <p className="text-xs font-bold text-gray-600 uppercase tracking-wide mb-3 flex items-center gap-2">
-                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-                      Pay by debit or credit card
-                    </p>
-                    <button
-                      onClick={openPaystack}
-                      disabled={loading}
-                      className="w-full py-3.5 px-4 text-sm font-bold text-white rounded-sm transition-opacity hover:opacity-90 disabled:opacity-60 flex items-center justify-center gap-2"
-                      style={{ backgroundColor: ukGreen }}
-                    >
-                      {loading ? (
-                        <>
-                          <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity={0.25} strokeWidth={3} /><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth={3} strokeLinecap="round" /></svg>
-                          Processing...
-                        </>
-                      ) : (
-                        <>
-                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-                          Pay £{totalFee.toLocaleString()} by card
-                        </>
-                      )}
-                    </button>
-                    <p className="text-xs text-gray-400 mt-2 text-center">Visa · Mastercard · Amex — powered by Paystack</p>
-                  </div>
-
-                  {/* ── Option 2: Pay with PayPal ── */}
+                  {/* ── Pay with PayPal ── */}
                   <div className="border border-[#0070ba] rounded-sm p-4">
                     <p className="text-xs font-bold text-gray-600 uppercase tracking-wide mb-3 flex items-center gap-2">
                       <svg className="w-3.5 h-3.5 text-[#0070ba]" viewBox="0 0 24 24" fill="currentColor"><path d="M20.067 8.478c.492.88.556 2.014.3 3.327-.74 3.806-3.276 5.12-6.514 5.12h-.5a.805.805 0 0 0-.794.68l-.04.22-.63 3.993-.032.17a.804.804 0 0 1-.794.679H8.93a.483.483 0 0 1-.477-.558L9.053 19h1.48l.394-2.656.025-.137a.804.804 0 0 1 .793-.679h.5c3.236 0 5.772-1.314 6.512-5.12.31-1.583.15-2.907-.69-3.93z"/><path d="M18.124 7.527c-.24-.698-.637-1.29-1.169-1.756-.858-.742-2.114-1.102-3.701-1.102h-4.85a.808.808 0 0 0-.797.68L5.836 16.54a.484.484 0 0 0 .478.559h3.139l.788-5.002-.025.155a.808.808 0 0 1 .797-.68h1.66c3.257 0 5.807-1.324 6.553-5.152.022-.114.041-.226.057-.336-.209-.113-.43-.215-.659-.557z"/></svg>
@@ -649,7 +622,7 @@ function ProcessingPage({ onDone }: { onDone: () => void }) {
 
   useEffect(() => {
     const stages = [
-      { at: 300, text: "Confirming payment with Paystack..." },
+      { at: 300, text: "Confirming payment with PayPal..." },
       { at: 1200, text: "Recording payment with Home Office..." },
       { at: 2200, text: "Generating your reference number..." },
       { at: 3000, text: "Sending confirmation email..." },
@@ -697,7 +670,7 @@ function ProcessingPage({ onDone }: { onDone: () => void }) {
             />
           </div>
           <p className="text-xs text-gray-400">Please do not close this page or press Back.</p>
-          <p className="text-xs text-gray-400 mt-1">Secured by <strong>Paystack</strong> · TLS 1.3 encrypted</p>
+          <p className="text-xs text-gray-400 mt-1">Secured by <strong>PayPal</strong> · TLS 1.3 encrypted</p>
         </div>
       </main>
       <Footer />
@@ -1079,7 +1052,7 @@ function StepEnglish({ form, update, errors }: any) {
 
 function StepFees({ isHealthCare, duration, setDuration, visaFee, ihsYears, setIhsYears, ihsFee, wantsPriority, setWantsPriority, priorityFee, totalFee }: any) {
   const rows = [
-    { item: isHealthCare ? "Health and Care Worker Visa fee" : "Skilled Worker Visa fee", detail: duration === "short" ? "Up to 3 years" : "More than 3 years", amount: visaFee, badge: "Mandatory", badgeColor: "#d4351c", note: "Non-refundable. Paid online via Paystack at submission." },
+    { item: isHealthCare ? "Health and Care Worker Visa fee" : "Skilled Worker Visa fee", detail: duration === "short" ? "Up to 3 years" : "More than 3 years", amount: visaFee, badge: "Mandatory", badgeColor: "#d4351c", note: "Non-refundable. Paid online via PayPal at submission." },
     { item: "Biometric enrolment", detail: "Fingerprints and photo at Visa Application Centre", amount: 0, display: "Included", badge: "Mandatory", badgeColor: "#d4351c", note: "Included in visa fee." },
     { item: "Immigration Health Surcharge (IHS)", detail: isHealthCare ? "Exempt — H&C Worker visa holders do not pay IHS" : `£1,035/yr × ${ihsYears} yr`, amount: isHealthCare ? null : ihsFee, display: isHealthCare ? "EXEMPT" : undefined, badge: isHealthCare ? "Exempt" : "Mandatory", badgeColor: isHealthCare ? "#00703c" : "#d4351c", note: isHealthCare ? "H&C Worker visa holders and dependants are fully exempt." : "Gives access to the NHS. Paid upfront for the visa duration." },
     { item: "Priority service", detail: "Decision within 5 working days", amount: 500, display: wantsPriority === "priority" ? "£500" : "Not selected", badge: "Optional", badgeColor: "#6b7280", note: "Add below." },
@@ -1163,7 +1136,7 @@ function StepFees({ isHealthCare, duration, setDuration, visaFee, ihsYears, setI
       </div>
       <div className="mt-4 bg-blue-50 border-l-4 border-blue-700 p-4 rounded-sm text-xs text-blue-900">
         <p className="font-semibold mb-1">How payment works</p>
-        <p className="leading-relaxed">After you submit your declaration on the next step, you will be taken to a <strong>secure payment page</strong> where you enter your card details. Payment is processed securely by <strong>Paystack</strong>. Accepted cards: Visa, Mastercard, American Express. All fees are <strong>non-refundable</strong>.</p>
+        <p className="leading-relaxed">After you submit your declaration on the next step, you will be taken to a <strong>secure payment page</strong> powered by PayPal. You can pay with your PayPal account or any debit/credit card. All fees are <strong>non-refundable</strong>.</p>
       </div>
     </div>
   );
@@ -1204,7 +1177,7 @@ function StepDeclaration({ form, update, errors, isHealthCare }: any) {
       </div>
       <div className="bg-green-50 border border-green-200 rounded-sm p-4 text-xs text-green-900 flex items-start gap-2">
         <svg className="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-        <span>After agreeing to the declaration, you will be taken to the <strong>secure payment page</strong> to pay your visa fee. Payment is processed securely by Paystack.</span>
+        <span>After agreeing to the declaration, you will be taken to the <strong>secure payment page</strong> to pay your visa fee. Payment is processed securely by PayPal.</span>
       </div>
     </div>
   );
