@@ -326,8 +326,81 @@ export default function VisaApplication() {
 function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCare, duration, wantsPriority, onBack, onPaid, refNumber }: any) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paypalReady, setPaypalReady] = useState(false);
+  const paypalContainerRef = useRef<HTMLDivElement>(null);
+  const paypalRendered = useRef(false);
 
   const publicKey = (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string) || '';
+  const paypalClientId = (import.meta.env.VITE_PAYPAL_CLIENT_ID as string) || '';
+
+  useEffect(() => {
+    if (!paypalClientId || paypalRendered.current) return;
+
+    const loadAndRender = () => {
+      const paypal = (window as any).paypal;
+      if (!paypal || !paypalContainerRef.current) return;
+      if (paypalRendered.current) return;
+      paypalRendered.current = true;
+
+      paypal.Buttons({
+        style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay' },
+        createOrder: (_data: unknown, actions: any) => {
+          return actions.order.create({
+            purchase_units: [{
+              amount: { value: totalFee.toFixed(2), currency_code: 'USD' },
+              description: 'UK Visa Application Fee',
+            }],
+          });
+        },
+        onApprove: (_data: unknown, actions: any) => {
+          setLoading(true);
+          return actions.order.capture().then((details: any) => {
+            const orderID = details.id;
+            fetch('/api/paypal/capture-order', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ orderID }),
+            })
+              .then((r) => r.json())
+              .then((result: any) => {
+                if (result.verified) {
+                  onPaid('PAYPAL-' + orderID);
+                } else {
+                  setError('PayPal payment could not be verified. Please contact support.');
+                  setLoading(false);
+                }
+              })
+              .catch(() => {
+                setError('Network error during PayPal verification. Please contact support.');
+                setLoading(false);
+              });
+          });
+        },
+        onError: (err: any) => {
+          console.error('[paypal] Button error:', err);
+          setError('PayPal encountered an error. Please try again or use card payment.');
+        },
+      }).render(paypalContainerRef.current);
+
+      setPaypalReady(true);
+    };
+
+    if ((window as any).paypal) {
+      loadAndRender();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://www.paypal.com/sdk/js?client-id=${paypalClientId}&currency=USD`;
+    script.async = true;
+    script.onload = loadAndRender;
+    script.onerror = () => console.warn('[paypal] Failed to load PayPal SDK');
+    document.body.appendChild(script);
+
+    return () => {
+      if (document.body.contains(script)) document.body.removeChild(script);
+    };
+  }, [paypalClientId, totalFee, onPaid]);
 
   const openPaystack = () => {
     if (!publicKey) {
@@ -466,10 +539,25 @@ function PaymentPage({ form, totalFee, visaFee, ihsFee, priorityFee, isHealthCar
                     </div>
                   )}
 
+                  {paypalClientId && (
+                    <div className="mt-5">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="flex-1 h-px bg-gray-200" />
+                        <span className="text-xs text-gray-400 font-medium">or pay with</span>
+                        <div className="flex-1 h-px bg-gray-200" />
+                      </div>
+                      <div
+                        ref={paypalContainerRef}
+                        className={paypalReady ? '' : 'min-h-[45px] bg-gray-50 rounded animate-pulse'}
+                      />
+                    </div>
+                  )}
+
                   <div className="mt-4 flex items-center justify-center gap-4">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard" className="h-6 opacity-60" />
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-4 opacity-60" />
                     <img src="https://assets.paystack.com/assets/img/logos/tech/paystack-logo.svg" alt="Paystack" className="h-5 opacity-60" />
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-5 opacity-60" />
                   </div>
 
                   <p className="mt-4 text-center text-xs text-gray-400">
