@@ -39,6 +39,37 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    minify: "terser",
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+        passes: 3,
+        pure_funcs: ["console.log", "console.info", "console.debug", "console.warn"],
+        dead_code: true,
+        collapse_vars: true,
+        reduce_vars: true,
+      },
+      mangle: {
+        toplevel: true,
+        safari10: true,
+        properties: false,
+      },
+      format: {
+        comments: false,
+        ascii_only: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+        entryFileNames: "assets/[hash].js",
+        chunkFileNames: "assets/[hash].js",
+        assetFileNames: "assets/[hash][extname]",
+      },
+    },
+    sourcemap: false,
+    cssMinify: true,
   },
   server: {
     port,
